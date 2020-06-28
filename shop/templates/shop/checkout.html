@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+{% extends 'shop\main.html'%}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Checkout</title>
+</head>
+<body>
+{%block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box p" >
+            <form>
+                <div>
+                    <div class="form-row">
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder=" Name">
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder="Email ">
+                        </div>
+                        
+                      </div>
+                      
+                </div><hr>
+                <div>
+                    <p>Shipping information</p>
+                    <div class="form-row">
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder="Address">
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder="City ">
+                        </div>
+                        
+                      </div><br>
+                      <div class="form-row">
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder="State">
+                        </div>
+                        <div class="col">
+                          <input type="text" class="form-control" placeholder="Zip ">
+                        </div>
+                        <br>
+                       
+                      </div>
+                </div><hr>
+                <a type="button" class="btn btn-success btn-lg btn-block" href="{%url }">Continue</a>
+                
+            </form>
+        </div>
+        <br>
+			<div class="box hidden" id="payment-info">
+        <small>Paypal Options</small>
+        <div id="paypal-button-container"></div>
+
+    <!-- Include the PayPal JavaScript SDK -->
+   <div id="paypal-button"></div>
+<script src="https://www.paypalobjects.com/api/checkout.js"></script>
+<script>
+  paypal.Button.render({
+    // Configure environment
+    env: 'sandbox',
+    client: {
+      sandbox: 'demo_sandbox_client_id',
+      production: 'demo_production_client_id'
+    },
+    // Customize button (optional)
+    locale: 'en_US',
+    style: {
+      size: 'small',
+      color: 'gold',
+      shape: 'pill',
+    },
+
+    // Enable Pay Now checkout flow (optional)
+    commit: true,
+
+    // Set up a payment
+    payment: function(data, actions) {
+      return actions.payment.create({
+        transactions: [{
+          amount: {
+            total: '0.01',
+            currency: 'USD'
+          }
+        }]
+      });
+    },
+    // Execute the payment
+    onAuthorize: function(data, actions) {
+      return actions.payment.execute().then(function() {
+        // Show a confirmation message to the buyer
+        window.alert('Thank you for your purchase!');
+      });
+    }
+  }, '#paypal-button');
+
+</script>
+			</div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="box p">
+            <a type="button" class="btn btn-outline-secondary" href="{% url 'cart'%}">&#x2190;Back To Cart</a>
+           <hr>
+           <h3>Order Summary</h3>
+           <hr>
+           {% for i in items %}
+           <div class="cart-row">
+            <div style="flex:2"><img class="row-image" src="{{i.product.image.url}}"></div>
+            <div style="flex:2"><p>{{i.product.P_name}}</p></div>
+            <div style="flex:1"><p>${{i.product.P_price}}</p></div>
+            
+            <div style="flex:1"><p>x{{i.quantity}}</p></div>
+        </div>
+        {%endfor%}
+        <h6>items:{{order.get_total_item}}</h6>
+        <h6>Total:${{order.get_cart_total}}</h6>
+        </div>
+       
+    </div>
+    <hr>
+    
+
+</div>
+{% endblock content %}
+</body>
+</html>

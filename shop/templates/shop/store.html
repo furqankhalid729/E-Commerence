@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+{% extends 'shop\main.html'%}
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shop</title>
+     <!--<link  rel="stylesheet" type="text/css" href="{% static 'css/store.css' %}">-->
+
+</head>
+<body>
+{% block content%}
+<div class="row" style="margin-bottom:3px">
+    {% for p in product%}
+    <div class="col-lg-4">
+      <div class="box">
+       <img class="img-thumbnail " style="width:100%; height:200px" src="{{p.image.url}}" alt="pix" >
+       <p class='name'>{{p.P_name}}</p><hr>
+      
+       
+       {% if user.is_authenticated %}
+       <a type="button"  data-product={{p.P_id}} data-action = "add" href="{%url 'update_carts' p.P_id %}"  class="btn btn-outline-secondary carts ">Add To Cart</a>
+       {%else%}
+       <a type="button"  data-product={{p.P_id}} data-action = "add" href="{% url 'login'%}"  class="btn btn-outline-secondary carts ">Add To Cart</a>
+        {% endif %}
+       <a type="button" class="btn btn-outline-success"  href="{%url 'p_view' p.P_id%}">view</a>
+       <p class='price'>${{p.P_price}}</p>
+      </div>
+      
+     
+    </div>
+        {% endfor %}
+     <!-- <div class="col-lg-4">
+        <div class="box">
+          <img class="img-thumbnail" src="{% static 'images\placeholder.png' %}" alt="pix">
+          <p class='name'>Product</p><hr>
+          <button type="button" class="btn btn-outline-secondary">Add To Cart</button>
+          <button type="button" class="btn btn-outline-success">view</button>
+          <p class='price'>$20</p>
+        </div>
+    </div>
+      <div class="col-lg-4">
+        <div class="box">
+          <img class="img-thumbnail" src="{% static 'images\placeholder.png' %}" alt="pix">
+          <p class='name'>Product</p><hr>
+          <button type="button" class="btn btn-outline-secondary">Add To Cart</button>
+          <button type="button" class="btn btn-outline-success">view</button>
+          <p class='price'>$20</p>
+        </div>
+    </div>-->
+</div>
+{% endblock content%}
+
+</body>
+</html>

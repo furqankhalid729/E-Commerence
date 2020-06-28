@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'shop\main.html'%}
+{%load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cart</title>
+</head>
+<body>
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="box">
+            <a href="{%url 'home'%}" class="btn btn-outline-secondary">&#x2190;Continue shopping</a>
+            <br>  <br>
+         <table class="table">
+             <tr>
+                 <th><h5>Items:{{order.get_total_item}}</h5></th>
+                 <th><h5>Total:${{order.get_cart_total}}</h5></th>
+                 <th><a href="{%url 'checkout'%}" class="btn btn-outline-success" style="float: right;">checkout</a></th>
+             </tr>
+         </table>
+          
+           
+        </div>
+
+        <br>
+        <div class="box">
+            <div class="cart-row">
+                <div style="flex:2"></div>
+                <div style="flex:2"><strong>Item</strong></div>
+                <div style="flex:1"><strong>Price</strong></div>
+                <div style="flex:1"><strong>Quantity</strong></div>
+                <div style="flex:1"><strong>Total</strong></div>
+            </div>
+            {% for i in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{ i.product.image.url }}"></div>
+                <div style="flex:2"><p>{{i.product.P_name}}</p></div>
+                <div style="flex:1"><p>${{i.product.P_price}}</p></div>
+                <div style="flex:1">
+                    <p class="quantity">{{i.quantity}}</p>
+                    <div class="quantity">
+                    <a href="{%url 'inc_quan' i.product.P_id%}"><img class="chg-quantity" src="{% static  'images/arrow-up.png' %}" ></a>
+                
+                       <a href="{%url 'rem_quan' i.product.P_id%}"> <img class="chg-quantity" src="{% static  'images/arrow-down.png' %}"></a>
+                    </div>
+                </div>
+                <div style="flex:1"><p>${{i.pro_total}}</p></div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+
+</div>
+{% endblock content %}
+</body>
+</html>

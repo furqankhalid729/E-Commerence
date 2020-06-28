@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% extends 'shop\main.html'%}
+{% load static%}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>View</title>
+</head>
+<body>
+{% block content%}
+<main class="mt-5 pt-4">
+    <div class=" dark-grey-text ">
+
+      <!--Grid row-->
+      <div class="row wow fadeIn">
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <img src="{{ object.image.url }}" class="img-fluid" alt="">
+
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col-md-6 mb-4">
+
+          <!--Content-->
+          <div class="p-4">
+
+
+
+            <p class="lead font-weight-bold">Description</p>
+
+            <p>{{ object.P_Description }}</p>
+
+            {% comment %} <form class="d-flex justify-content-left">
+              <!-- Default input -->
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <a class="btn btn-primary btn-md my-0 p" type="submit" >
+                Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </a>
+
+            </form> {% endcomment %}
+            <a  class="btn btn-primary btn-md my-0 p" href="{% url 'update_cart' object.P_id %}">
+              Add to cart
+              <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+            <a href="{% url 'remove' object.P_id%}" class="btn btn-danger btn-md my-0 p">
+              Remove from cart
+            </a>
+
+          </div>
+          <!--Content-->
+
+        <!--Grid column-->
+
+      </div>
+      <!--Grid row-->
+        <h3>Comments</h3><br>
+        {% for c in roles %}
+        <div  class="col-md-12 mb-12 box">
+          <p>{{c.text}}</p>
+          by <h4 style="display:inline">{{c.user}}</h4>
+        </div>
+        {% endfor %}
+        </div>
+
+{% endblock content%}
+
+</body>
+</html>
